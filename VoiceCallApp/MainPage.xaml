@@ -14,6 +14,7 @@
             <Button Content="Start Call" Click="CallButton_ClickAsync" x:Name="CallButton" Margin="10,10,10,10"></Button>
             <Button Content="Hang Up" Click="HangupButton_Click" x:Name="HangupButton" Margin="10,10,10,10"></Button>
             <TextBox Text="name" TextWrapping="Wrap" x:Name="Caption" Margin="10,100,10,10"></TextBox>
+            <Button Content="OpenVideo Chat" Click="btnOpenVideoChat_Click" x:Name="HangupButton_Copy"/>
         </StackPanel>
     </Grid>
 </Page>

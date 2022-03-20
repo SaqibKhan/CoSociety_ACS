@@ -1,0 +1,9 @@
+namespace ACS_Demo
+{
+    [default_interface]
+    runtimeclass Chat : Windows.UI.Xaml.Controls.Page
+    {
+        Chat();
+        Int32 MyProperty;
+    }
+}

@@ -16,8 +16,8 @@ namespace TestComeService
          CommunicationIdentityClient _client;
         ChatClient _chatClient;
         private const string Topic = "Cosociety!";
-        private string chatThreadClientId = "";
-        public GetMessagesDelegate getMessagesDelegate;
+        private string _chatThreadClientId = "";
+        private GetMessagesDelegate _getMessagesDelegate;
         public CoSociety()
         {
             InitializeComponent();
@@ -25,12 +25,12 @@ namespace TestComeService
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
-            getMessagesDelegate = new GetMessagesDelegate(GetMessages);
+            _getMessagesDelegate = new GetMessagesDelegate(GetMessages);
         }
 
         public async void GetMessages()
         {
-            var threadClient = _chatClient.GetChatThreadClient(threadId: chatThreadClientId);
+            var threadClient = _chatClient.GetChatThreadClient(threadId: _chatThreadClientId);
             AsyncPageable<ChatMessage>? allMessages = threadClient.GetMessagesAsync(DateTime.Now.AddSeconds(-1));
             await foreach (ChatMessage message in allMessages)
             {
@@ -73,7 +73,7 @@ namespace TestComeService
                 DisplayName = "Server"
             };
             CreateChatThreadResult createChatThreadResult = await _chatClient.CreateChatThreadAsync(topic: Topic, participants: new[] { chatParticipant });
-            chatThreadClientId = createChatThreadResult.ChatThread.Id;
+            _chatThreadClientId = createChatThreadResult.ChatThread.Id;
                       
 
             txt_ClientConnection.Text += $"---------------------Chat Client Intiated---------------------------";
@@ -92,7 +92,7 @@ namespace TestComeService
         private async void CoSociety_FormClosingAsync(object sender, FormClosingEventArgs e)
         {
             await _client.DeleteUserAsync(_identityAndToken.User);
-            await _chatClient.DeleteChatThreadAsync(chatThreadClientId);
+            await _chatClient.DeleteChatThreadAsync(_chatThreadClientId);
         }
 
         private async void btn_CreateUser_Click(object sender, EventArgs e)
@@ -102,7 +102,7 @@ namespace TestComeService
                 DisplayName = txt_ChatUsers.Text
             };
 
-            var threadClient = _chatClient.GetChatThreadClient(threadId: chatThreadClientId);
+            var threadClient = _chatClient.GetChatThreadClient(threadId: _chatThreadClientId);
             await threadClient.AddParticipantAsync(chatParticipant);  
             
             txt_ChatUsers.Text = String.Empty;

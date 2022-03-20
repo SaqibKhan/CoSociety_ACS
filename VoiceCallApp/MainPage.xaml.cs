@@ -80,6 +80,10 @@ namespace VoiceCallApp
             await call_.HangUpAsync(new HangUpOptions());
         }
 
-   
+        private void btnOpenVideoChat_Click(object sender, RoutedEventArgs e)
+        {
+            var videochatWindow = new VideoChatPage();
+            this.Frame.Navigate(typeof(VideoChatPage));
+        }
     }
 }
